@@ -4,8 +4,7 @@ import MaterialTable from 'material-table';
 import tableIcons from '../MaterialTableIcons'; // Import tableIcons from its file
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, FormControl, InputLabel, Select, MenuItem, IconButton } from '@material-ui/core';
 import swal from 'sweetalert';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+
 
 export default function Mail() {
     const [mail, setMail] = useState([]);
@@ -145,10 +144,6 @@ export default function Mail() {
                                 render: rowData => <p>{rowData.mail_rec}</p>
                             },
                             {
-                                title: <h6 style={{ fontSize: '17px', color: '#f48404' }}>Quota utilisé</h6>,
-                                render: rowData => <p>{rowData.new_num_tel}</p>
-                            },
-                            {
                                 title: <h6 style={{ fontSize: '17px', color: '#f48404' }}>Statut</h6>,
                                 render: rowData => (
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -179,10 +174,6 @@ export default function Mail() {
                             </div>
                         </div>
                     </div>
-
-
-
-
                 </div>
             </div>
 
@@ -220,40 +211,6 @@ export default function Mail() {
                         fullWidth
                         value={newMail.mail_rec}
                         onChange={(e) => setNewMail({ ...newMail, mail_rec: e.target.value })}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="pass"
-                        name="pass"
-                        label="Mot de passe *"
-                        type={showPassword ? "text" : "password"}
-                        fullWidth
-                        value={newMail.pass}
-                        onChange={(e) => setNewMail({ ...newMail, pass: e.target.value })}
-                        InputProps={{
-                            endAdornment: (
-                                <IconButton onClick={() => setShowPassword(!showPassword)}>
-                                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                                </IconButton>
-                            )
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="pass1"
-                        name="pass1"
-                        label="Confirmation de mot de passe *"
-                        type={showPassword ? "text" : "password"}
-                        fullWidth
-                        value={newMail.pass1}
-                        onChange={(e) => setNewMail({ ...newMail, pass1: e.target.value })}
-                        InputProps={{
-                            endAdornment: (
-                                <IconButton onClick={() => setShowPassword(!showPassword)}>
-                                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                                </IconButton>
-                            )
-                        }}
                     />
                 </DialogContent>
                 <DialogActions>

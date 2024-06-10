@@ -5,6 +5,7 @@ import swal from 'sweetalert';
 
 export default function Migration() {
     const [loading, setLoading] = useState(true);
+    const [produits, setProduits] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         lastName: '',
@@ -28,48 +29,76 @@ export default function Migration() {
         client_id: '',
         Contract: '',
         current_offre: '',
-        desired_offre: ''
+        desired_offre: '',
     });
-
     const [token, setToken] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
-        axios.get('api/currentuser')
-            .then(res => {
-                if (res.data.status === 200) {
+        setToken(token);
+        
+        const fetchData = async () => {
+            try {
+                const userRes = await axios.get('api/currentuser');
+                if (userRes.data.status === 200) {
+                    const user = userRes.data.currentuser;
                     setFormData(prevState => ({
                         ...prevState,
-                        name: res.data.currentuser.name,
-                        lastName: res.data.currentuser.last_name,
-                        rue: res.data.currentuser.rue,
-                        gouvernorat: res.data.currentuser.gouvernorat,
-                        delegation: res.data.currentuser.delegation,
-                        localite: res.data.currentuser.localite,
-                        ville: res.data.currentuser.ville,
-                        code_postal: res.data.currentuser.code_postal,
-                        tel: res.data.currentuser.tel,
-                        gsm: res.data.currentuser.gsm,
-                        login: res.data.currentuser.login,
-                        password: res.data.currentuser.password,
-                        code_Client: res.data.currentuser.code_Client,
-                        type_Client: res.data.currentuser.type_Client,
-                        id: res.data.currentuser._id,
+                        name: user.name,
+                        lastName: user.last_name,
+                        rue: user.rue,
+                        gouvernorat: user.gouvernorat,
+                        delegation: user.delegation,
+                        localite: user.localite,
+                        ville: user.ville,
+                        code_postal: user.code_postal,
+                        tel: user.tel,
+                        gsm: user.gsm,
+                        login: user.login,
+                        password: user.password,
+                        code_Client: user.code_Client,
+                        type_Client: user.type_Client,
+                        id: user._id,
                     }));
-                    setToken(token);
+
+                    const produitRes = await axios.get('api/produit');
+                    if (produitRes.data.status === 200) {
+                        setProduits(produitRes.data.produit);
+                    } else {
+                        swal("", produitRes.data.message, "error");
+                    }
                     setLoading(false);
-                } else if (res.data.status === 404) {
-                    swal("", res.data.message, "error");
+                } else if (userRes.data.status === 404) {
+                    swal("", userRes.data.message, "error");
                 }
-            })
-            .catch(error => {
-                console.error('Error fetching current user:', error);
-            });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
     }, []);
+
+    // Update current_offre based on Contract
+    useEffect(() => {
+        if (formData.Contract) {
+            const selectedContract = produits.find(produit => produit.nom_commercial === formData.Contract);
+            if (selectedContract) {
+                setFormData(prevState => ({
+                    ...prevState,
+                    current_offre: selectedContract.nom_commercial
+                }));
+            }
+        } else {
+            setFormData(prevState => ({
+                ...prevState,
+                current_offre: ''
+            }));
+        }
+    }, [formData.Contract, produits]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const formDataToSend = new FormData();
             Object.entries(formData).forEach(([key, value]) => {
@@ -88,9 +117,9 @@ export default function Migration() {
                 swal("", response.data.message, "success");
                 setFormData({
                     ...formData,
-                    desired_offre: "",
+                    desired_offre: '',
                     current_offre: '',
-                    Contract: '',
+                    Contract: ''
                 });
             }
         } catch (error) {
@@ -119,8 +148,10 @@ export default function Migration() {
                                 value={formData.Contract} 
                                 onChange={(e) => setFormData({ ...formData, Contract: e.target.value })}
                             >
-                                <option value='0'>Choisir le contrat</option>
-                                <option value={formData.tel}>{formData.tel}</option>
+                                <option value=''>Choisir le contrat</option>
+                                {produits && produits.map((produit, index) => (
+                                    <option key={index} value={produit.nom_commercial}>{produit.nom_commercial} ({produit.reference})</option>
+                                ))}
                             </select>
                         </div>
                     </div>
@@ -133,10 +164,12 @@ export default function Migration() {
                                 className="form-control" 
                                 required 
                                 value={formData.current_offre} 
-                                onChange={(e) => setFormData({ ...formData, current_offre: e.target.value })}
+                                disabled
                             >
                                 <option value=''>Choisir le Service</option>
-                                <option value={formData.tel}>{formData.tel}</option>
+                                {formData.Contract && (
+                                    <option value={formData.current_offre}>{formData.current_offre}</option>
+                                )}
                             </select>
                         </div>
                     </div>
@@ -168,12 +201,12 @@ export default function Migration() {
                     </div>
                 </div>
                 <div className="card-footer">
-                        <div className="row justify-content-end">
-                            <div className="col-sm-1 text-right">
-                                <button type="submit" className="btn btn-primary btn-sm">Envoyer</button>
-                            </div>
+                    <div className="row justify-content-end">
+                        <div className="col-sm-1 text-right">
+                            <button type="submit" className="btn btn-primary btn-sm">Envoyer</button>
                         </div>
                     </div>
+                </div>
             </div>
         </form>
     );

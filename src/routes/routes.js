@@ -59,9 +59,7 @@ const routes =  [
 
     //Satisfaction route
     {path: '/espaceclient/satisfaction', exact:true, name:'Satisfaction', component:Satisfaction},
-
     {path: '/espaceclient/produit-details', exact:true, name:'ProduitDetailsPage', component:ProduitDetailsPage},
-
 ]
 
 export default routes;

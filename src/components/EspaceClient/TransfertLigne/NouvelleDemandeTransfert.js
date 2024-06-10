@@ -238,31 +238,29 @@ export default function Line() {
 
                                         {showInput && (
                                             
-                                <div className="row mt-3">
-                                <div className="col-lg-3 col-md-3 col-form-label">Nom du propriaitaire *</div>
-                                <div className="col-lg-9 col-md-9">
-                                <input
-                                type="text"
-                                className="form-control"
-                                name="Nom"
-                                value={formData.NOM}
-                                onChange={(e) => setFormData({ ...formData, NOM: e.target.value })}
-                                    />
-                            
-                                </div>
-                                <br></br>
-                             <div className="col-lg-3 col-md-3 col-form-label">CIN du propriaitaire *</div>
-                                <div className="col-lg-9 col-md-9">
-                             <input
-                                type="text"
-                                className="form-control"
-                                name="CIN"
-                                value={formData.CIN}
-                                onChange={(e) => setFormData({ ...formData, CIN: e.target.value })}
-                                        />
-                            
-                                    </div>
-                                    </div>
+                                            <div className="row mt-3">
+                                            <div className="col-lg-3 col-md-3 col-form-label">Nom du propriétaire *</div>
+                                            <div className="col-lg-9 col-md-9 mb-3">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="Nom"
+                                                    value={formData.NOM}
+                                                    onChange={(e) => setFormData({ ...formData, NOM: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="col-lg-3 col-md-3 col-form-label">CIN du propriétaire *</div>
+                                            <div className="col-lg-9 col-md-9 mb-3">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="CIN"
+                                                    value={formData.CIN}
+                                                    onChange={(e) => setFormData({ ...formData, CIN: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+                                        
                     
                                 )}
 
@@ -276,10 +274,6 @@ export default function Line() {
                                         onChange={handleImage}
                                     />
                                 </div>
-
-
-
-
                             </div>
 
 
