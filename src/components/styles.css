@@ -1,0 +1,5 @@
+.custom-modal-dialog {
+  max-width: 1200px !important; /* Ensure this width is large enough for your needs */
+  width: 100% !important;
+  margin: 1.75rem auto !important;
+}
