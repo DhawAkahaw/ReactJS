@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+
 import Loading from './/Loading';
 import axios from "axios";
 import swal from 'sweetalert';
@@ -42,7 +42,7 @@ export default function Line() {
 
     const [token, setToken] = useState('');
     const [sameAddress, setSameAddress] = useState(false);
-    const history = useHistory(); // 
+ 
 
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
@@ -115,7 +115,7 @@ export default function Line() {
 
             if (response.status === 201) {
                 swal("", response.data.message, "success").then(() => {
-                    history.push('/');
+        
                 });
                 setFormData({
                    tel:'',
