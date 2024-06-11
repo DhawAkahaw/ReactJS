@@ -4,19 +4,20 @@ import './Login.css';
 import axios from "axios";
 import swal from 'sweetalert';
 import { useHistory, Link } from "react-router-dom";
+import { Mail } from '@material-ui/icons';
 
 const LoginScreen = () => {
     const history = useHistory();
 
     const [loginInput, setLogin] = useState({
         password: '',
-        code_Client: '',
+        mail: '',
         error_list: [],
         captcha: '',
     });
 
     useEffect(() => {
-        loadCaptchaEnginge(6); // Load CAPTCHA with 6 characters
+        loadCaptchaEnginge(2); // Load CAPTCHA with 6 characters
     }, []);
 
     const handleInputLogin = (e) => {
@@ -35,7 +36,7 @@ const LoginScreen = () => {
 
         const data = {
             password: loginInput.password,
-            code_Client: loginInput.code_Client
+            mail: loginInput.mail
         }
 
         axios.get('/sanctum/csrf-cookie').then(response => {
@@ -65,8 +66,8 @@ const LoginScreen = () => {
 
             <div>
             
-                <input placeholder='Code client' required className="form-control" onChange={handleInputLogin} value={loginInput.code_Client} name="code_Client" />
-                <span className="text-danger">{loginInput.error_list.code_Client}</span>
+                <input placeholder='Code client' required className="form-control" onChange={handleInputLogin} value={loginInput.mail} name="mail" />
+                <span className="text-danger">{loginInput.error_list.mail}</span>
 
                 <input type='password' placeholder='Password' required className="form-control" onChange={handleInputLogin} value={loginInput.password} name="password" />
                 <span className="text-danger">{loginInput.error_list.password}</span>
