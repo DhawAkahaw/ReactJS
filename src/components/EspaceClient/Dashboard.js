@@ -26,7 +26,7 @@ export default function Dashboard() {
     code_Client: '',
     type_Client: '',
     id: '',
-    montant_a_payer: '',
+    reste_a_payer: '',
     designation: '',
     reference_contrat: '',
   });
@@ -98,8 +98,8 @@ export default function Dashboard() {
         axios.get(`api/factures/${userId}`)
           .then(response => {
             const factures = response.data.facture;
-            const facturesWithZeroMontant = factures.filter(facture => facture.montant_a_payer !== 0);
-            setFactures(facturesWithZeroMontant.length);
+            const facturesWithZeroreste = factures.filter(facture => facture.reste_a_payer !== '0');
+            setFactures(facturesWithZeroreste.length);
           })
           .catch(error => {
             console.error('Error fetching mail:', error);

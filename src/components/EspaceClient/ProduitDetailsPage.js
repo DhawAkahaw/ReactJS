@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+
 import MaterialTable from 'material-table';
 import tableIcons from '../MaterialTableIcons';
 export default function ProduitDetails() {
     const location = useLocation();
     const produits = location.state?.produit || [];
-   
-
-
-
-
-
     return (
         <div>
             <MaterialTable

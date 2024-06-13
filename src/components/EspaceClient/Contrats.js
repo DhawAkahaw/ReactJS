@@ -5,15 +5,15 @@ import tableIcons from '../MaterialTableIcons';
 import { Modal,} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles.css'; // Ensure this path is correct and this import is last
-import ModalBody from '../ModalBody'; // Import the ModalBody component
+import '../styles.css'; 
+import ModalBody from '../ModalBody'; 
 
 export default function Contract() {
     const [contracts, setContracts] = useState([]);
     const [option, setOption] = useState([]);
     const [produit, setProduit] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedContractId, setSelectedContractId] = useState(null); // State variable to store the selected contract ID
+    const [selectedContractId, setSelectedContractId] = useState(null); 
 
     useEffect(() => {
         axios.get('api/currentuser')

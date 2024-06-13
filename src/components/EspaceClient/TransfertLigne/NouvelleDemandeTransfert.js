@@ -18,7 +18,6 @@ export default function Line() {
         ville: '',
         code_postal: '',
         gsm: '',
-       
         id: '',
         adsl_num:'',
         new_num_tel:'',
@@ -58,8 +57,6 @@ export default function Line() {
                         gsm: res.data.currentuser.gsm,
                         login: res.data.currentuser.login,
                         password: res.data.currentuser.password,
-                     
-                      
                         id: res.data.currentuser._id
                     }));
                     setFormSave(prevState => ({
@@ -118,25 +115,22 @@ export default function Line() {
         
                 });
                 setFormData({
-                   tel:'',
                     rue: '',
                     gouvernorat: '',
-                    delegation: '',
-                    
+                    delegation: '',                   
                     ville: '',
                     code_postal: '',
                     gsm: '',
-                    
                     id: '',
                     adsl_num:'',
                     new_num_tel:'',
                     prev_num:'',
-                    
                     Ticket:'',
                     State:'',
                     CIN:'',
                     NOM:''
                 });
+                setSameAddress(false);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -191,7 +185,7 @@ export default function Line() {
                                             <div className="col-lg-3 col-md-3 col-form-label">Numéro ADSL *</div>
                                             <div className="col-lg-9 col-md-9">
                                                 <div className="text-right">
-                                                <select name="offre" className="form-control"   value={formData.adsl_num} onChange={(e) => setFormData({ ...formData, adsl_num: e.target.value })} >
+                                                <select name="offre" className="form-control" required="true"  value={formData.adsl_num} onChange={(e) => setFormData({ ...formData, adsl_num: e.target.value })} >
                                                         <option value='0'>Choisir le numero</option>
                                                         <option value={formData.tel}>{formData.tel}</option>
                                                       
@@ -281,7 +275,7 @@ export default function Line() {
                                             <div className="col-lg-3 col-md-3 col-form-label"> </div>
                                             <div className="col-lg-9 col-md-9">
                                                 <div className="text-left">
-                                                <input type="checkbox" value="quest" name="quest" onChange={(e) => setSameAddress(e.target.checked)}/> Voulez vous garder la même adresse?
+                                                <input type="checkbox" value="quest" id="mycheckbox" name="quest" onChange={(e) => setSameAddress(e.target.checked)}/> Voulez vous garder la même adresse?
                                                 
                                                 </div>
                                             </div>

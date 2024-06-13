@@ -80,7 +80,7 @@ export default function Reclamation() {
             Object.entries(formData).forEach(([key, value]) => {
                 formDataToSend.append(key, value);
             });
-            formDataToSend.append('picture', formData.picture);
+            
             const response = await axios.post(`api/Submitdemand/${formData.id}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
