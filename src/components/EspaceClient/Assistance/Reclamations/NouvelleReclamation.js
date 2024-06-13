@@ -32,7 +32,10 @@ export default function Reclamation() {
         client_id:''
     });
     const [token, setToken] = useState('');
-
+    const [catOptions, setCatOptions] = useState([]);
+    const [motifOptions, setMotifOptions] = useState([]);
+    const [typeOptions, setTypeOptions] = useState([]);
+     const [showAdditionalSelect, setShowAdditionalSelect] = useState(false);
     // Create a reference for the file input
     const fileInputRef = useRef(null);
 
@@ -70,6 +73,102 @@ export default function Reclamation() {
                 console.error('Error fetching current user:', error);
             });
     }, []);
+
+    useEffect(() => {
+        const serviceCat = {
+            'Commerciale': [
+                'ADSL & option',
+                
+            ],
+            'Technique': [
+                'ADSL',
+                
+            ]
+        };
+
+        if (formData.Service) {
+            setCatOptions(serviceCat[formData.Service] || []);
+        } else {
+            setCatOptions([]);
+        }
+
+        const serviceMotif = {
+            'Commerciale': [
+                'Délai de traitement',
+                'Facturation alors qu il est résilié',
+                'Débit non conforme (par rapport au débit choisi da',
+                'Paiement chez le revendeur',
+                'Paiement ccp ou bancaire non validé',
+                'Facturation alors que l’abonnement est gratuit',
+                'Paiement en ligne non validé'
+
+                
+            ],
+            'Technique': [
+                'Lenteur',
+                'Dépannage WIFI',
+                'Messagerie',
+                'Dépannage Pack sécurité',
+                'Demande de transfert',
+                'Pas de connexion',
+                'Déconnexion courante',
+
+                
+            ]
+        };
+        
+
+        if (formData.Service) {
+            setMotifOptions(serviceMotif[formData.Service] || []);
+        } else {
+            setMotifOptions([]);
+        }
+
+
+        const serviceType = {
+     
+            'Technique': [
+                'TG585V7',
+                'Sagem2404',
+                'Sagem2604',
+                'Sagem1201 V2',
+                'Sagem1704',
+                'TG585V8',
+                'Huawei HG530',
+                'TG582n',
+                'Huawei HG532e',
+                'ZTE',
+                'Huawei HG658 V2'
+                
+            ]
+        };
+        
+
+        if (formData.Service) {
+            setTypeOptions(serviceType[formData.Service] || []);
+        } else {
+            setTypeOptions([]);
+        }
+
+
+
+
+
+    }, [formData.Service]);
+
+
+
+    const handleServiceChange = (e) => {
+        const selectedService = e.target.value;
+        setFormData({ ...formData, Service: selectedService });
+
+        // Show additional select if 'Technique' is selected
+        setShowAdditionalSelect(selectedService === 'Technique');
+    };
+
+
+
+
 
     const handleImage = (e) => {
         setFormData(prevState => ({
@@ -150,7 +249,8 @@ export default function Reclamation() {
                                         className="form-control"
                                         required
                                         value={formData.Service}
-                                        onChange={(e) => setFormData({ ...formData, Service: e.target.value })}
+                                        
+                                        onChange={handleServiceChange}
                                     >
                                         <option value="0" selected>Choisir le Service</option>
                                         <option value="Commerciale">Commerciale</option>
@@ -170,8 +270,9 @@ export default function Reclamation() {
                                         onChange={(e) => setFormData({ ...formData, Category: e.target.value })}
                                     >
                                         <option value="0" selected>Sélectionnez une categorie</option>
-                                        <option value="Generalite">Generalite</option>
-                                        <option value="ADSL&Options">ADSL&Options</option>
+                                        {catOptions.map(cat => (
+                                            <option key={cat} value={cat}>{cat}</option>
+                                        ))}
                                     </select>
                                 </div>
                             </div>
@@ -182,16 +283,41 @@ export default function Reclamation() {
                                     <select
                                         name="Motif"
                                         className="form-control"
-                                        required
+                                       
                                         value={formData.Motif_rec}
                                         onChange={(e) => setFormData({ ...formData, Motif_rec: e.target.value })}
                                     >
                                         <option value="0" selected>Sélectionnez un motif</option>
-                                        <option value="Facture non conforme (prix non adéquat)">Facture non conforme (prix non adéquat)</option>
-                                        <option value="Non réception facture">Non réception facture</option>
+                                        {motifOptions.map(motif => (
+                                            <option key={motif} value={motif}>{motif}</option>
+                                        ))}
+                                        
                                     </select>
                                 </div>
                             </div>
+
+                            {showAdditionalSelect && (
+                    <div className="mb-3 row">
+                        <label className="col-lg-3 col-md-3 col-form-label">Type de modem *</label>
+                        <div className="col-lg-9 col-md-9">
+                            <select
+                                name="Type"
+                                className="form-control"
+                                required
+                                value={formData.NouvelleSelection}
+                                onChange={(e) => setFormData({ ...formData, NouvelleSelection: e.target.value })}
+                            >
+                               <option value="0" selected>Sélectionnez un type de modem</option>
+                                        {typeOptions.map(type => (
+                                            <option key={type} value={type}>{type}</option>
+                                        ))}
+                                
+                            </select>
+                        </div>
+                    </div>
+                )}
+
+                            
 
                             <div className="mb-3 row">
                                 <label className="col-lg-3 col-md-3 col-form-label">Image</label>
@@ -229,7 +355,6 @@ export default function Reclamation() {
                                         name="Message"
                                         className="form-control"
                                         rows="5"
-                                        
                                         value={formData.Message}
                                         onChange={(e) => setFormData({ ...formData, Message: e.target.value })}
                                     />
@@ -237,12 +362,12 @@ export default function Reclamation() {
                             </div>
                         </div>
                         <div className="card-footer">
-                        <div className="row justify-content-end">
-                            <div className="col-sm-1 text-right">
-                                <button type="submit" className="btn btn-primary btn-sm">Envoyer</button>
+                            <div className="row justify-content-end">
+                                <div className="col-sm-1 text-right">
+                                    <button type="submit" className="btn btn-primary btn-sm">Envoyer</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </form>

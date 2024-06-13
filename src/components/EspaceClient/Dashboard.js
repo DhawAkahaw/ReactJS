@@ -136,8 +136,8 @@ export default function Dashboard() {
               <Card.Title>Mon Offre</Card.Title>
               {offre && offre.length > 1 ? (
                 <div>
-                  <Card.Text><strong>Designation:</strong> {offre[1].designation}</Card.Text>
-                  <Card.Text><strong>Ref:</strong> {offre[1].reference_contrat}</Card.Text>
+                  <Card.Text><strong>Designation:</strong> {offre[0].designation}</Card.Text>
+                  <Card.Text><strong>Ref:</strong> {offre[0].reference_contrat}</Card.Text>
                 </div>
               ) : (
                 <Card.Text>No second offre found</Card.Text>
@@ -195,7 +195,7 @@ export default function Dashboard() {
                 </thead>
                 <tbody>
                   {mail && mail.length > 0 ? (
-                    mail.map((email, index) => (
+                    mail.slice(0, 3).map((email, index) => (
                       <tr key={index}>
                         <td>{email.mail}</td>
                         <td>{email.State}</td>

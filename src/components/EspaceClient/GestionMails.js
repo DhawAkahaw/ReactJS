@@ -2,24 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import MaterialTable from 'material-table';
 import tableIcons from '../MaterialTableIcons'; // Import tableIcons from its file
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, FormControl, InputLabel, Select, MenuItem, IconButton } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, FormControl, InputLabel, Select, MenuItem, LinearProgress } from '@material-ui/core';
 import swal from 'sweetalert';
-
 
 export default function Mail() {
     const [mail, setMail] = useState([]);
-    const [showPassword, setShowPassword] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [newMail, setNewMail] = useState({
-      mail: '',
-      mail_rec: '',
-      new_num_tel: '',
-      State: '',
-      domaine: '',
-      client_id: '',
-      Option: 'Topnet.tn',
-      pass: '',
-      pass1: ''
+        mail: '',
+        mail_rec: '',
+        new_num_tel: '',
+        State: '',
+        domaine: '',
+        client_id: '',
+        Option: 'Topnet.tn',
+        pass: '',
+        pass1: ''
     });
 
     const [token, setToken] = useState('');
@@ -107,9 +105,8 @@ export default function Mail() {
                     domaine: '',
                     pass: '',
                     pass1: ''
-                    
                 });
-                window.location.reload();
+
                 const userId = response.data.currentuser._id;
                 axios.get(`api/maillist/${userId}`)
                     .then(response => {
@@ -144,6 +141,15 @@ export default function Mail() {
                                 render: rowData => <p>{rowData.mail_rec}</p>
                             },
                             {
+                                title: <h6 style={{ fontSize: '17px', color: '#f48404' }}>Quota utilisé</h6>,
+                                render: rowData => (
+                                    <div style={{ width: '100%' }}>
+                                        <LinearProgress variant="determinate" value={rowData.quota} />
+                                        <span>{`${rowData.Quota}%`}</span>
+                                    </div>
+                                )
+                            },
+                            {
                                 title: <h6 style={{ fontSize: '17px', color: '#f48404' }}>Statut</h6>,
                                 render: rowData => (
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -164,9 +170,6 @@ export default function Mail() {
                     />
                 </div>
                 <div className="card-footer text-center">
-                
-                    
-
                     <div className="card-footer">
                         <div className="row justify-content-end">
                             <div className="col-sm-2 text-right">
@@ -214,8 +217,7 @@ export default function Mail() {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
-                    Annuler</Button>
+                    <Button onClick={handleCloseDialog} color="primary">Annuler</Button>
                     <Button onClick={handleAddMail} color="primary">Ajouter</Button>
                 </DialogActions>
             </Dialog>

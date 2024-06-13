@@ -34,7 +34,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/" exact>
-            {isAuthenticated ? <Redirect to="/espaceclient/dashboard" /> : <LoginScreen />}
+            {isAuthenticated ? <Redirect to="/espaceclient/profile" /> : <LoginScreen />}
           </Route>
           <Route path='/forgotpassword'>
             {isAuthenticated ? <Redirect to="/espaceclient/dashboard" /> : <Forgotpassword />}

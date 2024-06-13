@@ -17,7 +17,7 @@ const LoginScreen = () => {
     });
 
     useEffect(() => {
-        loadCaptchaEnginge(2); // Load CAPTCHA with 6 characters
+        loadCaptchaEnginge(5); // Load CAPTCHA with 6 characters
     }, []);
 
     const handleInputLogin = (e) => {
@@ -31,6 +31,7 @@ const LoginScreen = () => {
         // Validate CAPTCHA
         if (!validateCaptcha(loginInput.captcha)) {
             swal("Oops", "Invalid CAPTCHA", "error");
+            setLogin({ ...loginInput, captcha: '' });
             return;
         }
 
@@ -66,7 +67,7 @@ const LoginScreen = () => {
 
             <div>
             
-                <input placeholder='Code client' required className="form-control" onChange={handleInputLogin} value={loginInput.mail} name="mail" />
+                <input placeholder='mail' required className="form-control" onChange={handleInputLogin} value={loginInput.mail} name="mail" />
                 <span className="text-danger">{loginInput.error_list.mail}</span>
 
                 <input type='password' placeholder='Password' required className="form-control" onChange={handleInputLogin} value={loginInput.password} name="password" />
@@ -81,7 +82,7 @@ const LoginScreen = () => {
 
                 <div className="card-footer text-center pt-0 px-lg-2 px-1 mt-3">
                     <p className="mb-4 text-sm mx-auto">
-                        <Link to="/forgotpassword" className="text-info text-gradient font-weight-bold">Mot de passe oublié ?</Link>
+                        <Link to="/forgotpassword" className="text-info text-gradient font-weight-bold">Mot de passe oubliÃ© ?</Link>
                     </p>
                 </div>
             </div>

@@ -122,7 +122,8 @@ export default function Factures() {
                     },
                     {
                         title: <h6 style={{ fontSize: '17px', color: '#f48404' }}>Reste à payer</h6>,
-                        field: 'reste_a_payer'
+                        field: 'reste_a_payer',
+                        defaultSort:'desc'
                     },
                     {
                         title: <h6 style={{ fontSize: '17px', color: '#f48404' }}>Prise en charge</h6>,
