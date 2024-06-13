@@ -144,7 +144,7 @@ export default function Mail() {
                                 title: <h6 style={{ fontSize: '17px', color: '#f48404' }}>Quota utilisé</h6>,
                                 render: rowData => (
                                     <div style={{ width: '100%' }}>
-                                        <LinearProgress variant="determinate" value={rowData.quota} />
+                                        <LinearProgress variant="determinate" value={rowData.Quota} />
                                         <span>{`${rowData.Quota}%`}</span>
                                     </div>
                                 )
